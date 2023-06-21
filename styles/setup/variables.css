@@ -1,0 +1,23 @@
+/* palette */
+
+:root {
+    
+    /* Primary */
+    --clrPrimary4: #ffffff;
+    --clrPrimary3: #ebeef3;
+    --clrPrimary2: #87898d;
+    --clrPrimary1: #383b42;
+    --clrPrimarybase: #22252c;
+
+    /* Divs */
+    --clrDivGradient1: #0c98b9;
+    --clrDivGradient2: #19a59f;
+    --clrDivGradient3: #33be6d;
+
+    /* Buttons */
+    --clrTextNavBtn: #41b2cf;
+    --clrAddBtn: #3fda56;
+    --clrDeleteBtn: #d82b37;
+    --clrDownloadBtn: #8f44bb;
+    --clrFacebookBtn: #1e7cd3;
+}

@@ -1,49 +1,106 @@
 'use strict'
 
-let gElCanvas
-let gCtx
+// Constants
+
+// The global touch events constant array
 const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend']
 
+
+// Global variables
+
+// The global DOM elements
+let gElCanvas
+let gCtx
+let gElEditorForm
+
+
+//////////////////////////////////////////////////////////////////////
+
+
+// The onInit function
 
 function onInit() {
     gElCanvas = document.querySelector('#meme-canvas')
     gCtx = gElCanvas.getContext('2d')
+    gElEditorForm = document.querySelector('#meme-editor')
     addListeners()
-    // resizeCanvas()
+    resizeCanvas()
+    
+    renderMeme()
 }
 
 
+//////////////////////////////////////////////////////////////////////
+
+
+// a function for rendering a meme image and text
+function renderMeme() {
+    const meme = getMeme()
+    const memeText = meme.lines[0].text
+    const memeImg = getImageById(meme.selectedImgId)
+    let img = new Image()
+    img.onload = function () {
+        gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
+        drawText(memeText)
+    }
+    img.src = memeImg
+}
+
+
+// a function for rendering text
+function drawText(text) {
+    const x = gElCanvas.width / 2
+    const y = gElCanvas.height / 10
+
+    gCtx.lineWidth = 3
+    gCtx.font = '20px Impact'
+    gCtx.textAlign = 'center'
+    gCtx.textBaseline = 'middle'
+
+    gCtx.strokeStyle = 'black'
+    gCtx.strokeText(text, x, y)
+
+    gCtx.fillStyle = 'white'
+    gCtx.fillText(text, x, y)
+}
+
+
+// a function for getting the line text and sending it to the controller
+// to be changed, then rendering the meme
+function onSetLineText(ev) {
+    ev.preventDefault()
+    const text = gElEditorForm.elements['line-text'].value
+    setLineText(text)
+    renderMeme()
+}
+
+
+// a function for adding window resize, mouse and touch event listeners
 function addListeners() {
     addMouseListeners()
     addTouchListeners()
     window.addEventListener('resize', () => {
-        // resizeCanvas()
+        resizeCanvas()
     })
 }
 
 
+// a function for adding mouse event listeners
 function addMouseListeners() {
-    gElCanvas.addEventListener('mousedown', onDown)
-    gElCanvas.addEventListener('mousemove', onMove)
-    gElCanvas.addEventListener('mouseup', onUp)
+    // gElCanvas.addEventListener('mousedown', onDown)
+    // gElCanvas.addEventListener('mousemove', onMove)
+    // gElCanvas.addEventListener('mouseup', onUp)
 }
 
-
+// a function for adding touch event listeners
 function addTouchListeners() {
-    gElCanvas.addEventListener('touchstart', onDown)
-    gElCanvas.addEventListener('touchmove', onMove)
-    gElCanvas.addEventListener('touchend', onUp)
+    // gElCanvas.addEventListener('touchstart', onDown)
+    // gElCanvas.addEventListener('touchmove', onMove)
+    // gElCanvas.addEventListener('touchend', onUp)
 }
 
 
-function resizeCanvas() {
-    const elContainer = document.querySelector('.canvas-container')
-    gElCanvas.width = elContainer.offsetWidth
-    gElCanvas.height = elContainer.offsetHeight
-    onClearCanvas()
-}
-
-
+// a function for getting a mouse\touch event position
 function getEvPos(ev) {
 
     let pos = {
@@ -65,6 +122,7 @@ function getEvPos(ev) {
 }
 
 
+// a function for downloading the meme as an image
 function onDownloadCanvas(elLink) {
     const data = gElCanvas.toDataURL()
     elLink.href = data
@@ -72,11 +130,15 @@ function onDownloadCanvas(elLink) {
 }
 
 
+// a function that is triggered when a file is selected in the input element
+// It loads the image file into the canvas
 function onImgInput(ev) {
     loadImageFromInput(ev, renderImg)
 }
 
 
+// a function for reading the image file from the input event and calling the 
+// provided callback function when the image has loaded
 function loadImageFromInput(ev, onImageReady) {
     const reader = new FileReader()
 
@@ -89,11 +151,13 @@ function loadImageFromInput(ev, onImageReady) {
 }
 
 
+// a function for drawing the provided image on the canvas
 function renderImg(img) {
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
 }
 
 
+// a function for uploading the image currently drawn on the canvas
 function onUploadImg() {
     const imgDataUrl = gElCanvas.toDataURL('image/jpeg')
 
@@ -106,6 +170,8 @@ function onUploadImg() {
 }
 
 
+// a function that sends a request to a server with the image data to upload
+// and calls the provided callback function when successful
 function doUploadImg(imgDataUrl, onSuccess) {
     const formData = new FormData()
     formData.append('img', imgDataUrl)
@@ -124,4 +190,20 @@ function doUploadImg(imgDataUrl, onSuccess) {
     }
     XHR.open('POST', '//ca-upload.com/here/upload.php')
     XHR.send(formData)
+}
+
+
+// a function that adjusts the size of the canvas to fit its container every time the window is resized
+function resizeCanvas() {
+    const elContainer = document.querySelector('.canvas-container')
+    gElCanvas.width = elContainer.offsetWidth
+    gElCanvas.height = elContainer.offsetHeight
+    onClearCanvas()
+}
+
+
+// a function for clearing the canvas by painting it white
+function onClearCanvas() {
+    gCtx.fillStyle = 'white'
+    gCtx.fillRect(0, 0, gElCanvas.width, gElCanvas.height)
 }

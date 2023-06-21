@@ -17,7 +17,16 @@
         </section>
 
         <section class="main-editor editor-layout">
-
+            <div class="canvas-container canvas-container-layout">
+            <canvas id="meme-canvas" width="400" height="400" onMemeCanvasClicked=""></canvas>
+            </div>
+            <div class="toolbar-container">
+                <br>
+                <form class="meme-editor-form" id="meme-editor" onsubmit="onSetLineText(event)">
+                    <input style="font-size:20px; height:30px;" name = "line-text" type="text" placeholder="Your meme text here"></input>
+                    <button style="font-size:20px; height:30px;">Submit</button>
+                </form>
+            </div>
         </section>
     
     </main>
