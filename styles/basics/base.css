@@ -24,14 +24,15 @@ img {
     width: 100%;
 }
 
-a {
+a, a:hover, a:focus, a:active {
     text-decoration: none;
+    color: inherit;
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>👆</text></svg>") 16 0,auto;
 }
 
 button {
-    width: 116px;
-    height: 40px;
+    width: 5em;
+    height: 1.7em;
     box-shadow: 0 3px 6px 1px rgba(0, 0, 0, 0.15);
     border: none;
     border-radius: 20px;

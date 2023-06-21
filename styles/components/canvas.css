@@ -1,19 +1,26 @@
 .canvas-container {
     width: 55vh;
     height: 55vh;
+    background-color: var(--clrPrimary1);
+    outline: 8px solid var(--clrPrimary1);
+    border-radius: 20px;
+    margin: 0;
+    padding: 0;
 }
 
 .fill-clr-picker {
-  height: 2rem;
-  width: 2rem;
+    height: 2rem;
+    width: 2rem;
 }
 
 .upload-img-btn {
-  cursor: pointer;
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>👆</text></svg>") 16 0,auto;
 }
 
 canvas {
-  outline: 1px solid rgb(0, 0, 0);
-  border-radius: 4px;
-  cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>👆</text></svg>") 16 0,auto;
+    margin: 0;
+    padding: 0;
+    outline: 1px solid rgb(0, 0, 0);
+    border-radius: 4px;
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>👆</text></svg>") 16 0,auto;
 }

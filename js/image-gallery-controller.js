@@ -17,8 +17,8 @@ let gElGallery
 // The onInit function
 
 function onGalleryInit() {
-    document.querySelector('.main-editor').classList.add('hidden-element')
-    document.querySelector('.main-gallery').classList.remove('hidden-element')
+    document.querySelector('.main-editor').style.display = 'none'
+    document.querySelector('.main-gallery').style.display = 'block'
     gElGallery = document.querySelector('.gallery')
     renderGallery()
 }
@@ -43,4 +43,5 @@ function renderGallery() {
 function onImageSelect(selectedImgId) {
     setImg(selectedImgId)
     onEditorInit()
+    console.log('hi4')
 }

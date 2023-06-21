@@ -10,4 +10,5 @@
 
 .main-header .main-nav {
     margin-inline-start: 2rem;
+    gap: 20px;
 }

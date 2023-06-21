@@ -20,6 +20,21 @@
     flex-direction: column;
 }
 
+.flex-container-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+}
+
+.flex-container-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: stretch;
+    gap: 25px;
+}
+
 
 /* clean-list */
 
@@ -27,11 +42,4 @@
     margin: 0;
     padding: 0;
     list-style-type: none;
-}
-
-
-/* hidden-element */
-
-.hidden-element {
-    display: none;
 }

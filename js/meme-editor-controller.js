@@ -20,8 +20,8 @@ let gElEditorForm
 // The onInit function
 
 function onEditorInit() {
-    document.querySelector('.main-gallery').classList.add('hidden-element')
-    document.querySelector('.main-editor').classList.remove('hidden-element')
+    document.querySelector('.main-gallery').style.display = 'none'
+    document.querySelector('.main-editor').style.display = 'grid'
     gElCanvas = document.querySelector('#meme-canvas')
     gCtx = gElCanvas.getContext('2d')
     gElEditorForm = document.querySelector('#meme-editor')

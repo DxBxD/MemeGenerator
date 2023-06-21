@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./styles/styles.css" />
     <title>Meme Generator</title>
 </head>
@@ -12,7 +13,7 @@
 
     <header class="main-header-container full main-layout">
         <div class="main-header flex space-between align-center">
-            <a href="#">
+            <a onclick="window.location.reload()">
                 <div class="logo">
                     Meme Generator
                 </div>
@@ -31,10 +32,8 @@
     <main class="main-content">
 
         <section class="main-gallery gallery-layout">
-            <nav class="gallery-navbar"></div>
+            <!-- <nav class="gallery-navbar"></nav> -->
             <div class="gallery">
-                <img src="./meme-imgs (square)/1.jpg" alt="image">
-                <img src="./meme-imgs (square)/2.jpg" alt="image">
             </div>
         </section>
 
@@ -45,9 +44,44 @@
                 </canvas>
             </div>
 
-            <div class="editor-toolbar-container editor-toolbar-layout">
-                <br>
-                    <input style="font-size:20px; height:30px;" name="line-text" type="text" placeholder="Your meme text here"  oninput="onSetLineText(this.value)"></input>
+            <div class="editor-toolbar-container editor-toolbar-layout flex-container-column">
+
+                <input class="text-input" name="line-text" type="text" placeholder="Your meme text here"  oninput="onSetLineText(this.value)"></input>
+                
+                <div class="flex-container-row">
+                    <button class="editor-button text-nav-button"><i class="fa-solid fa-up-down"></i></button>
+                    <button class="editor-button add-line-button"><i class="fa-solid fa-plus"></i></button>
+                    <button class="editor-button delete-line-button"><i class="fa-solid fa-trash"></i></button>
+                </div>
+            
+                <div class="text-editor flex-container-column">
+                    <div class="flex-container-row">
+                        <button class="editor-button">A+</button>
+                        <button class="editor-button">A-</button>
+                        <button class="editor-button"><i class="fa-solid fa-align-left"></i></button>
+                        <button class="editor-button"><i class="fa-solid fa-align-center"></i></button>
+                        <button class="editor-button"><i class="fa-solid fa-align-right"></i></button>
+                    </div>
+                    <div class="flex-container-row">
+                        <select class="font-selector" placeholder="Impact">
+                            <option value="impact">Impact</option>
+                            <option value="arial">Arial</option>
+                            <option value="poppins">Poppins</option>
+                        </select>
+                        <button class="editor-button"><i class="fa-solid fa-underline"></i></button>
+                        <input class="editor-button clr-picker" type="color" value="#000000" oninput="onColorChange(this.value)">
+                    </div>
+                </div>
+                
+                <div class="flex-container-row">
+                    <button class="editor-button facebook-button" onclick="onUploadImg()">
+                        <i class="fa-brands fa-facebook"></i> Share
+                    </button>
+                    <button class="editor-button download-button"><a class="btn" onclick="onDownloadCanvas(this)" download="my-meme">
+                        <i class="fa-solid fa-circle-down"></i> Download
+                    </a></button>
+                </div>
+            
             </div>
 
         </section>

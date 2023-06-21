@@ -1,4 +1,84 @@
 .main-editor {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 100px;
     text-align: center;
     margin: 0;
+    padding: 0;
+}
+
+.main-editor .editor-toolbar-container {
+    background-color: var(--clrPrimary1);
+    outline: 20px solid var(--clrPrimary1);
+    border-radius: 20px;
+}
+
+.main-editor .editor-toolbar-container > * {
+    border-radius: 10px;
+}
+
+.main-editor .editor-toolbar-container .editor-button {
+    border-radius: 10px;
+    width: 2em;
+    height: 2em;
+    color: var(--clrPrimarybase);
+}
+
+
+.main-editor .editor-toolbar-container .text-input {
+    width: auto;
+    height: 2em;
+    box-shadow: 0 3px 6px 1px rgba(0, 0, 0, 0.15);
+    border: none;
+    background-color: var(--clrPrimary4);
+    font-family: poppins;
+    font-size: 21px;
+    text-align: center;
+    color: var(--clrPrimarybase);
+}
+
+.main-editor .editor-toolbar-container .text-nav-button {
+    color: var(--clrPrimary4);
+    background-color: var(--clrTextNavBtn);
+}
+
+.main-editor .editor-toolbar-container .add-line-button {
+    color: var(--clrPrimary4);
+    background-color: var(--clrAddBtn);
+}
+
+.main-editor .editor-toolbar-container .delete-line-button {
+    color: var(--clrPrimary4);
+    background-color: var(--clrDeleteBtn);
+}
+
+.main-editor .editor-toolbar-container .font-selector {
+    font-size: 1.53em;
+    font-family: poppins;
+    box-shadow: 0 3px 6px 1px rgba(0, 0, 0, 0.15);
+    border-radius: 0.3em;
+    padding: 0.1em;
+    color: var(--clrPrimarybase);
+}
+
+
+.main-editor .editor-toolbar-container .clr-picker {
+    width: 3.2em;
+    height: 3.2em;
+    border: none;
+    box-shadow: 0 3px 6px 1px rgba(0, 0, 0, 0.15);
+}
+
+.main-editor .editor-toolbar-container .download-button {
+    border-radius: 10px;
+    width: 7em;
+    color: var(--clrPrimary4);
+    background-color: var(--clrDownloadBtn);
+}
+
+.main-editor .editor-toolbar-container .facebook-button {
+    border-radius: 10px;
+    width: 7em;
+    color: var(--clrPrimary4);
+    background-color: var(--clrFacebookBtn);
 }
