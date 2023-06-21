@@ -33,7 +33,7 @@ function renderGallery() {
     const imgs = getImgs()
     const strHTMLs = imgs.map(img => 
         `
-         <img src="${img.url}" alt="image" onclick="onImageSelect('${img.id}')">
+         <img src="${img.url}" alt="image" onclick="onImageSelect('${img.id}')" title="image">
         `)
     const strHTML = strHTMLs.join('')
     gElGallery.innerHTML = strHTML

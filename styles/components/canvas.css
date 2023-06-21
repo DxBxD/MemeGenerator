@@ -1,6 +1,6 @@
 .canvas-container {
-    width: 55vh;
-    height: 55vh;
+    width: 65vh;
+    height: 65vh;
     background-color: var(--clrPrimary1);
     outline: 8px solid var(--clrPrimary1);
     border-radius: 20px;

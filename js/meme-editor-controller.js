@@ -12,6 +12,11 @@ const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend']
 let gElCanvas
 let gCtx
 let gElEditorForm
+let gFontFamily
+let gFontSize
+let gTextColor
+let gTextAlignDirection
+let gIsTextUnderline
 
 
 //////////////////////////////////////////////////////////////////////
@@ -25,6 +30,11 @@ function onEditorInit() {
     gElCanvas = document.querySelector('#meme-canvas')
     gCtx = gElCanvas.getContext('2d')
     gElEditorForm = document.querySelector('#meme-editor')
+    gFontSize = 35
+    gTextAlignDirection = 'center'
+    gFontFamily = 'impact'
+    gIsTextUnderline = false
+    gTextColor = '#ffffff'
     addListeners()
     resizeCanvas()
     renderMeme()
@@ -45,7 +55,6 @@ function renderMeme() {
         drawText(memeText)
     }
     img.src = memeImg
-    console.log('himeme')
 }
 
 
@@ -55,14 +64,14 @@ function drawText(text) {
     const y = gElCanvas.height / 10
 
     gCtx.lineWidth = 3
-    gCtx.font = '20px Impact'
-    gCtx.textAlign = 'center'
+    gCtx.font = `${gFontSize}px ${gFontFamily}`
+    gCtx.textAlign = gTextAlignDirection
     gCtx.textBaseline = 'middle'
 
     gCtx.strokeStyle = 'black'
     gCtx.strokeText(text, x, y)
 
-    gCtx.fillStyle = 'white'
+    gCtx.fillStyle = gTextColor
     gCtx.fillText(text, x, y)
 }
 
@@ -71,6 +80,43 @@ function drawText(text) {
 // to be changed, then rendering the meme
 function onSetLineText(text) {
     setLineText(text)
+    renderMeme()
+}
+
+
+function onFontSizeChange(direction) {
+    switch (direction) {
+        case '+':
+            gFontSize += 3
+            break
+        case '-':
+            gFontSize -= 3
+            break
+    }
+    renderMeme()
+}
+
+
+function onTextAlignChange(textAlignDirection) {
+    gTextAlignDirection = textAlignDirection
+    renderMeme()
+}
+
+
+function onFontFamilyChange(fontFamily) {
+    gFontFamily = fontFamily
+    renderMeme()
+}
+
+
+function onAddUnderline() {
+    gIsTextUnderline = !gIsTextUnderline
+    // renderMeme()
+}
+
+
+function onTextColorChange(selectedColor) {
+    gTextColor = selectedColor
     renderMeme()
 }
 
@@ -130,7 +176,7 @@ function onDownloadCanvas(elLink) {
 }
 
 
-// a function that is triggered when a file is selected in the input element
+// a function that is triggered when a file is selected in the input element,
 // It loads the image file into the canvas
 function onImgInput(ev) {
     loadImageFromInput(ev, renderImg)

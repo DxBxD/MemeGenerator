@@ -20,12 +20,11 @@
             </a>
             <nav class="main-nav-container">
                 <ul class="main-nav flex clean-list">
-                    <li><button class="nav-item" href="#" onclick="onGalleryInit()">Gallery</button></li>
-                    <li><button class="nav-item" href="#">About</button></li>
+                    <li><button class="nav-item" href="#" onclick="onGalleryInit()" title="gallery">Gallery</button></li>
+                    <li><button class="nav-item" href="#" title="about">About</button></li>
                 </ul>
             </nav>
-            <button style="display: none;" class="btn-toggle-menu flex align-center justify-center"
-                onclick="toggleMenu()">☰</button>
+            <button style="display: none;" class="btn-toggle-menu flex align-center justify-center" onclick="toggleMenu()" title="open mobile menu">☰</button>
         </div>
     </header>
 
@@ -39,45 +38,45 @@
 
         <section class="main-editor editor-layout">
 
-            <div class="canvas-container canvas-container-layout">
-                <canvas id="meme-canvas" width="400" height="400" onMemeCanvasClicked="">
+            <div class="canvas-container canvas-container-layout" aria-label="meme editing board">
+                <canvas id="meme-canvas" onMemeCanvasClicked="">
                 </canvas>
             </div>
 
-            <div class="editor-toolbar-container editor-toolbar-layout flex-container-column">
+            <div class="editor-toolbar-container editor-toolbar-layout flex-container-column" aria-label="meme editing toolbar">
 
-                <input class="text-input" name="line-text" type="text" placeholder="Your meme text here"  oninput="onSetLineText(this.value)"></input>
+                <input class="text-input" name="line-text" type="text" placeholder="Your meme text here"  oninput="onSetLineText(this.value)" title="meme text line input"></input>
                 
                 <div class="flex-container-row">
-                    <button class="editor-button text-nav-button"><i class="fa-solid fa-up-down"></i></button>
-                    <button class="editor-button add-line-button"><i class="fa-solid fa-plus"></i></button>
-                    <button class="editor-button delete-line-button"><i class="fa-solid fa-trash"></i></button>
+                    <button class="editor-button text-nav-button" title="switch text line"><i class="fa-solid fa-up-down"></i></button>
+                    <button class="editor-button add-line-button" title="add text line"><i class="fa-solid fa-plus"></i></button>
+                    <button class="editor-button delete-line-button" title="delete selected text line"><i class="fa-solid fa-trash"></i></button>
                 </div>
             
                 <div class="text-editor flex-container-column">
                     <div class="flex-container-row">
-                        <button class="editor-button">A+</button>
-                        <button class="editor-button">A-</button>
-                        <button class="editor-button"><i class="fa-solid fa-align-left"></i></button>
-                        <button class="editor-button"><i class="fa-solid fa-align-center"></i></button>
-                        <button class="editor-button"><i class="fa-solid fa-align-right"></i></button>
+                        <button class="editor-button" onclick="onFontSizeChange('+')" title="make font larger">A+</button>
+                        <button class="editor-button" onclick="onFontSizeChange('-')" title="make font smaller">A-</button>
+                        <button class="editor-button" onclick="onTextAlignChange('right')" title="align text to the left"><i class="fa-solid fa-align-left"></i></button>
+                        <button class="editor-button" onclick="onTextAlignChange('center')" title="align text to the center"><i class="fa-solid fa-align-center"></i></button>
+                        <button class="editor-button" onclick="onTextAlignChange('left')" title="align text to the right"><i class="fa-solid fa-align-right"></i></button>
                     </div>
                     <div class="flex-container-row">
-                        <select class="font-selector" placeholder="Impact">
+                        <select class="font-selector" placeholder="Impact" oninput="onFontFamilyChange(this.value)" title="font selector">
                             <option value="impact">Impact</option>
                             <option value="arial">Arial</option>
-                            <option value="poppins">Poppins</option>
+                            <option value="david">David</option>
                         </select>
-                        <button class="editor-button"><i class="fa-solid fa-underline"></i></button>
-                        <input class="editor-button clr-picker" type="color" value="#000000" oninput="onColorChange(this.value)">
+                        <button class="editor-button" onclick="onAddUnderline()" title="add underline"><i class="fa-solid fa-underline"></i></button>
+                        <button class="editor-button color-picker-button"><i class="fa-solid fa-fill-drip"></i><input class="editor-button clr-picker" type="color" value="#000000" oninput="onTextColorChange(this.value)" title="change text color"></button>
                     </div>
                 </div>
                 
                 <div class="flex-container-row">
-                    <button class="editor-button facebook-button" onclick="onUploadImg()">
+                    <button class="editor-button facebook-button" onclick="onUploadImg()" title="share on Facebook">
                         <i class="fa-brands fa-facebook"></i> Share
                     </button>
-                    <button class="editor-button download-button"><a class="btn" onclick="onDownloadCanvas(this)" download="my-meme">
+                    <button class="editor-button download-button" title="download the meme"><a class="btn" onclick="onDownloadCanvas(this)" download="my-meme">
                         <i class="fa-solid fa-circle-down"></i> Download
                     </a></button>
                 </div>
