@@ -8,32 +8,56 @@
     <title>Meme Generator</title>
 </head>
 
-<body onload="onInit()">
-    
-    <main class="main-content main-layout">
-        
-        <section class="main-gallery gallery-layout">
+<body class="main-layout" onload="onGalleryInit()">
 
+    <header class="main-header-container full main-layout">
+        <div class="main-header flex space-between align-center">
+            <a href="#">
+                <div class="logo">
+                    Meme Generator
+                </div>
+            </a>
+            <nav class="main-nav-container">
+                <ul class="main-nav flex clean-list">
+                    <li><button class="nav-item" href="#" onclick="onGalleryInit()">Gallery</button></li>
+                    <li><button class="nav-item" href="#">About</button></li>
+                </ul>
+            </nav>
+            <button style="display: none;" class="btn-toggle-menu flex align-center justify-center"
+                onclick="toggleMenu()">☰</button>
+        </div>
+    </header>
+
+    <main class="main-content">
+
+        <section class="main-gallery gallery-layout">
+            <nav class="gallery-navbar"></div>
+            <div class="gallery">
+                <img src="./meme-imgs (square)/1.jpg" alt="image">
+                <img src="./meme-imgs (square)/2.jpg" alt="image">
+            </div>
         </section>
 
         <section class="main-editor editor-layout">
+
             <div class="canvas-container canvas-container-layout">
-            <canvas id="meme-canvas" width="400" height="400" onMemeCanvasClicked=""></canvas>
+                <canvas id="meme-canvas" width="400" height="400" onMemeCanvasClicked="">
+                </canvas>
             </div>
-            <div class="toolbar-container">
+
+            <div class="editor-toolbar-container editor-toolbar-layout">
                 <br>
-                <form class="meme-editor-form" id="meme-editor" onsubmit="onSetLineText(event)">
-                    <input style="font-size:20px; height:30px;" name = "line-text" type="text" placeholder="Your meme text here"></input>
-                    <button style="font-size:20px; height:30px;">Submit</button>
-                </form>
+                    <input style="font-size:20px; height:30px;" name="line-text" type="text" placeholder="Your meme text here"  oninput="onSetLineText(this.value)"></input>
             </div>
+
         </section>
-    
+
     </main>
-    
+
     <script src="./js/services/util-service.js"></script>
     <script src="./js/services/meme-generator-service.js"></script>
-    <script src="./js/meme-generator-controller.js"></script>
+    <script src="./js/image-gallery-controller.js"></script>
+    <script src="./js/meme-editor-controller.js"></script>
 </body>
 
 </html>

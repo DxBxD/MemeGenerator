@@ -17,12 +17,12 @@ let gImgs = []
 
 // The global meme object
 let gMeme = {
-    selectedImgId: 'Eohzv2',
+    selectedImgId: 'm6sr7E',
     selectedLineIdx: 0,
     lines: [
         {
             text: 'Your Text',
-            size: 35,
+            size: 45,
             color: 'white'
         }
     ]
@@ -59,7 +59,6 @@ function _createImgs() {
     }
     gImgs = imgs
     _saveImgsToStorage()
-    console.log(gImgs)
 }
 
 
@@ -67,6 +66,19 @@ function _createImgs() {
 // to be drawn on the canvas by the controller
 function getMeme() {
     return gMeme
+}
+
+
+// a function for getting the images to be displayed in the gallery
+function getImgs() {
+    return gImgs
+}
+
+
+// a function for setting the selected image id in the gMeme object,
+// hiding the gallery and showing the meme editor
+function setImg(selectedImgId) {
+    gMeme.selectedImgId = selectedImgId
 }
 
 

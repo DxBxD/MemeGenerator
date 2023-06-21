@@ -1,11 +1,10 @@
 .main-layout {
     display: grid;
     grid-template-columns: 
-        minmax(100px, 1fr) 
-        minmax(auto, 980px)
-        minmax(100px, 1fr);
+        minmax(5px, 1fr) 
+        minmax(auto, 85vw)
+        minmax(5px, 1fr);
     place-items: center;
-    margin-top: 15vh;
 }
 
 .main-layout > *:not(.full) {

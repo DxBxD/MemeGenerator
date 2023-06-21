@@ -9,10 +9,10 @@
     --clrPrimary1: #383b42;
     --clrPrimarybase: #22252c;
 
-    /* Divs */
-    --clrDivGradient1: #0c98b9;
-    --clrDivGradient2: #19a59f;
-    --clrDivGradient3: #33be6d;
+    /* Gradients */
+    --clrSecondary1: #0c98b9;
+    --clrSecondary2: #19a59f;
+    --clrSecondary3: #33be6d;
 
     /* Buttons */
     --clrTextNavBtn: #41b2cf;
