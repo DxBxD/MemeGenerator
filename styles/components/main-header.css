@@ -10,10 +10,10 @@
 
 .main-header .main-nav {
     margin-inline-start: 0.5em;
-    margin-inline-end: 0.5em;
-    gap: 10px;
+    margin-inline-end: 0.2em;
+    gap: 5px;
 }
 
 .main-header .logo {
-    margin-inline-start: 1rem;
+    margin-inline-start: 0.2rem;
 }

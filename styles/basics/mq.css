@@ -3,7 +3,7 @@
     .main-layout {
         grid-template-columns: 
             minmax(3px, 1fr) 
-            minmax(auto, 100%)
+            minmax(auto, 98%)
             minmax(3px, 1fr);
     }
 

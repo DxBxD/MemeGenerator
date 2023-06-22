@@ -2,7 +2,7 @@
     display: grid;
     grid-template-columns: 
         minmax(5px, 1fr) 
-        minmax(auto, 95%)
+        minmax(auto, 90%)
         minmax(5px, 1fr);
 }
 
