@@ -21,7 +21,7 @@
             <nav class="main-nav-container">
                 <ul class="main-nav flex clean-list">
                     <li><button class="nav-item" href="#" onclick="onGalleryInit()" title="gallery"><span><i class="fa-solid fa-g"></i></span>allery</button></li>
-                    <li><button id="shadowBox" class="nav-item rainbow rainbow_text_animated flex align-center" title="saved memes (page under construction)"><span><i class="fa-solid fa-person-digging"></i><i class="fa-solid fa-g"></i>a</span>gs<button class="background-button"></button></button></li>
+                    <li><button id="shadowBox" class="nav-item rainbow rainbow_text_animated flex align-center justify-center" title="saved memes (page under construction)"><span><i class="fa-solid fa-person-digging"></i><i class="fa-solid fa-g"></i>a</span>gs<button class="background-button"></button></button></li>
                 </ul>
             </nav>
             <button style="display: none;" class="btn-toggle-menu flex align-center justify-center" onclick="toggleMenu()" title="open mobile menu">☰</button>
@@ -39,8 +39,9 @@
         <section class="main-editor editor-layout">
 
             <div class="canvas-container canvas-container-layout" aria-label="meme editing board">
-                <canvas id="meme-canvas" onMemeCanvasClicked="">
-                </canvas>
+                <canvas id="meme-canvas" onMemeCanvasClicked=""></canvas>
+                <!-- The hidden canvas is used to render the meme for downloading and sharing: -->
+                <canvas id="hidden-canvas" style="display: none;"></canvas>
             </div>
 
             <div class="editor-toolbar-container editor-toolbar-layout flex-container-column editor-layout" aria-label="meme editing toolbar">
@@ -84,9 +85,10 @@
                     <button class="editor-button facebook-button" onclick="onUploadImg()" title="share on Facebook">
                         <i class="fa-brands fa-facebook"></i> Share
                     </button>
-                    <button class="editor-button download-button" title="download the meme"><a class="btn" onclick="onDownloadCanvas(this)" download="my-meme">
+                    <button class="editor-button download-button" title="download the meme">
+                        <a class="btn" onclick="onDownloadCanvas(this)" download="my-meme">
                         <i class="fa-solid fa-circle-down"></i> Download
-                    </a></button>
+                        </a></button>
                 </div>
             
             </div>

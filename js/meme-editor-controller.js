@@ -11,6 +11,8 @@ const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend']
 // The global DOM elements
 let gElCanvas
 let gCtx
+let gElHiddenCanvas
+let gHiddenCtx
 let gElEditorForm
 let gTextInputBox
 let gFontFamily
@@ -34,6 +36,8 @@ function onEditorInit() {
     document.querySelector('.main-editor').style.display = 'grid'
     gElCanvas = document.querySelector('#meme-canvas')
     gCtx = gElCanvas.getContext('2d')
+    gElHiddenCanvas = document.querySelector('#hidden-canvas')
+    gHiddenCtx = gElHiddenCanvas.getContext('2d')
     gElEditorForm = document.querySelector('#meme-editor')
     gTextInputBox = document.querySelector('.text-input')
     gFontSize = 35
@@ -53,38 +57,36 @@ function onEditorInit() {
 //////////////////////////////////////////////////////////////////////
 
 
-// a function for rendering a meme image and text
+// a function for rendering a meme image and text on both hidden and shown canvas
+// hidden canvas is used for saving the memes without the markings and editing
+// information showing above
 function renderMeme() {
-    return new Promise((resolve, reject) => {
-        const meme = getMeme()
-
-        let img = new Image()
-        img.onload = function () {
-            gCtx.clearRect(0, 0, gElCanvas.width, gElCanvas.height) 
-            gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
-            drawText()
-            resolve()
-        }
-
-        img.onerror = reject
-
-        if (gIsCustomImage && gCustomImg) {
-            img.src = gCustomImg.src
-        } else {
-            const memeImg = getImageById(meme.selectedImgId)
-            img.src = memeImg
-        }
-    })
+    const meme = getMeme()
+    let img = new Image()
+    img.onload = function () {
+        gCtx.clearRect(0, 0, gElCanvas.width, gElCanvas.height)
+        gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
+        gHiddenCtx.clearRect(0, 0, gElHiddenCanvas.width, gElHiddenCanvas.height)
+        gHiddenCtx.drawImage(img, 0, 0, gElHiddenCanvas.width, gElHiddenCanvas.height)
+        drawText(gCtx, true)
+        drawText(gHiddenCtx, false)
+    }
+    if (gIsCustomImage && gCustomImg) {
+        img.src = gCustomImg.src
+    } else {
+        const memeImg = getImageById(meme.selectedImgId)
+        img.src = memeImg
+    }
 }
 
 // a function for drawing the text lines on the canvas above the image
-function drawText() {
+function drawText(ctx, drawRectangle) {
     for(let i = 0; i < gMeme.lines.length; i++) {
         let line = gMeme.lines[i]
-        gCtx.lineWidth = 3
-        gCtx.font = `${line['font-size']}px ${line['font-family']}`
-        gCtx.textAlign = line['text-align']
-        gCtx.textBaseline = 'middle'
+        ctx.lineWidth = 3
+        ctx.font = `${line['font-size']}px ${line['font-family']}`
+        ctx.textAlign = line['text-align']
+        ctx.textBaseline = 'middle'
 
         let x, y
         if (line.moved) {
@@ -105,7 +107,7 @@ function drawText() {
             y = (gElCanvas.height / (gMeme.lines.length+1)) * (i+1)
         }
 
-        let textMeasure = gCtx.measureText(line.text)
+        let textMeasure = ctx.measureText(line.text)
         let rectX, rectWidth
         switch (line['text-align']) {
             case 'center':
@@ -127,27 +129,26 @@ function drawText() {
         line.width = rectWidth
         line.height = line['font-size'] + 10
 
-        gCtx.strokeStyle = 'black'
-        gCtx.strokeText(line.text, x, y)
+        ctx.strokeStyle = 'black'
+        ctx.strokeText(line.text, x, y)
 
-        gCtx.fillStyle = line.color
-        gCtx.fillText(line.text, x, y)
+        ctx.fillStyle = line.color
+        ctx.fillText(line.text, x, y)
 
         if (line['text-underline']) {
             let underlineThickness = 0.5
             let underlineYPos = y + (line['font-size'] / 2) + underlineThickness
-            gCtx.strokeStyle = 'black'
-            gCtx.fillRect(rectX, underlineYPos, rectWidth, underlineThickness + 4)
-            gCtx.strokeRect(rectX, underlineYPos, rectWidth, underlineThickness + 4)
+            ctx.strokeStyle = 'black'
+            ctx.fillRect(rectX, underlineYPos, rectWidth, underlineThickness + 4)
+            ctx.strokeRect(rectX, underlineYPos, rectWidth, underlineThickness + 4)
         }
 
-        // Drawing a rectangle around the selected line
-        if (i === gMeme.selectedLineIdx && !gIsCanvasBeingSaved) {
-            gCtx.strokeStyle = 'black'
-            gCtx.beginPath()
-            gCtx.lineWidth = 2
-            gCtx.rect(rectX, y - line['font-size'] / 2 - 5, rectWidth, line['font-size'] + 10)
-            gCtx.stroke()
+        if (drawRectangle && i === gMeme.selectedLineIdx) {
+            ctx.strokeStyle = 'black'
+            ctx.beginPath()
+            ctx.lineWidth = 2
+            ctx.rect(rectX, y - line['font-size'] / 2 - 5, rectWidth, line['font-size'] + 10)
+            ctx.stroke()
         }
     }
 }
@@ -191,8 +192,12 @@ function onDeleteLine() {
         gMeme.selectedLineIdx--
         if (gMeme.selectedLineIdx < 0) gMeme.selectedLineIdx = 0
         gTextInputBox.value = gMeme.lines[gMeme.selectedLineIdx].text
-        renderMeme()
+    } else if (gMeme.lines.length === 1) {
+        gMeme.lines.pop()
+    } else {
+        return
     }
+    renderMeme()
 }
 
 
@@ -327,14 +332,10 @@ function getEvPos(ev) {
 
 
 // a function for downloading the meme as an image
-async function onDownloadCanvas(elLink) {
-    gIsCanvasBeingSaved = true
-    await renderMeme()  
-    const data = gElCanvas.toDataURL()
+function onDownloadCanvas(elLink) {
+    let data = gElHiddenCanvas.toDataURL()
     elLink.href = data
     elLink.download = 'my-meme'
-    gIsCanvasBeingSaved = false
-    renderMeme()
 }
 
 
@@ -366,53 +367,42 @@ function renderImg(img) {
     resetgMeme()
     onAddLine()
     gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
+    gHiddenCtx.drawImage(img, 0, 0, gElHiddenCanvas.width, gElHiddenCanvas.height)
 }
 
 
 // a function for uploading the image currently drawn on the canvas
-async function onUploadImg() {
-    gIsCanvasBeingSaved = true
-    await renderMeme()
-    const imgDataUrl = gElCanvas.toDataURL('image/jpeg')
+function onUploadImg() {
+    const imgDataUrl = gElHiddenCanvas.toDataURL('image/jpeg')
 
-    try {
-        const uploadedImgUrl = await doUploadImg(imgDataUrl)
+    function onSuccess(uploadedImgUrl) {
         const url = encodeURIComponent(uploadedImgUrl)
         window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&t=${url}`)
-        gIsCanvasBeingSaved = false
-        await renderMeme()
-    } catch (error) {
-        console.error('Error uploading image:', error)
     }
+
+    doUploadImg(imgDataUrl, onSuccess)
 }
 
 
 // a function that sends the image data to a server
-function doUploadImg(imgDataUrl) {
-    return new Promise((resolve, reject) => {
-        const formData = new FormData()
-        formData.append('img', imgDataUrl)
+function doUploadImg(imgDataUrl, onSuccess) {
+    const formData = new FormData()
+    formData.append('img', imgDataUrl)
 
-        const XHR = new XMLHttpRequest()
-        XHR.onreadystatechange = () => {
-            if (XHR.readyState !== XMLHttpRequest.DONE) return
-            if (XHR.status !== 200) {
-                console.error('Error uploading image')
-                reject('Error uploading image')
-                return
-            }
-            const { responseText: url } = XHR
+    const XHR = new XMLHttpRequest()
+    XHR.onreadystatechange = () => {
+        if (XHR.readyState !== XMLHttpRequest.DONE) return
+        if (XHR.status !== 200) return console.error('Error uploading image')
+        const { responseText: url } = XHR
 
-            console.log('Got back live url:', url)
-            resolve(url)
-        }
-        XHR.onerror = (req, ev) => {
-            console.error('Error connecting to server with request:', req, '\nGot response data:', ev)
-            reject('Error connecting to server')
-        }
-        XHR.open('POST', '//ca-upload.com/here/upload.php')
-        XHR.send(formData)
-    })
+        console.log('Got back live url:', url)
+        onSuccess(url)
+    }
+    XHR.onerror = (req, ev) => {
+        console.error('Error connecting to server with request:', req, '\nGot response data:', ev)
+    }
+    XHR.open('POST', '//ca-upload.com/here/upload.php')
+    XHR.send(formData)
 }
 
 
@@ -421,6 +411,11 @@ function resizeCanvas() {
     const elContainer = document.querySelector('.canvas-container')
     gElCanvas.width = elContainer.offsetWidth
     gElCanvas.height = elContainer.offsetHeight
+
+    // Setting the dimensions of the hidden canvas to match the visible canvas
+    gElHiddenCanvas.width = gElCanvas.width
+    gElHiddenCanvas.height = gElCanvas.height
+
     renderMeme()
 }
 
