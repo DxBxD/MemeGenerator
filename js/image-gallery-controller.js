@@ -18,7 +18,7 @@ let gElGallery
 
 function onGalleryInit() {
     document.querySelector('.main-editor').style.display = 'none'
-    document.querySelector('.main-gallery').style.display = 'block'
+    document.querySelector('.main-gallery').style.display = 'flex'
     gElGallery = document.querySelector('.gallery')
     renderGallery()
 }
@@ -43,5 +43,4 @@ function renderGallery() {
 function onImageSelect(selectedImgId) {
     setImg(selectedImgId)
     onEditorInit()
-    console.log('hi4')
 }

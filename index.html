@@ -6,16 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="./styles/styles.css" />
-    <title>Meme Generator</title>
+    <title>GagGuru - Meme Generator</title>
 </head>
 
 <body class="main-layout" onload="onGalleryInit()">
 
-    <header class="main-header-container full main-layout">
+    <header class="main-header-container main-layout full">
         <div class="main-header flex space-between align-center">
             <a onclick="window.location.reload()">
                 <div class="logo">
-                    Meme Generator
+                    GagGuru
                 </div>
             </a>
             <nav class="main-nav-container">
@@ -43,23 +43,23 @@
                 </canvas>
             </div>
 
-            <div class="editor-toolbar-container editor-toolbar-layout flex-container-column" aria-label="meme editing toolbar">
+            <div class="editor-toolbar-container editor-toolbar-layout flex-container-column editor-layout" aria-label="meme editing toolbar">
 
                 <input class="text-input" name="line-text" type="text" placeholder="Your meme text here"  oninput="onSetLineText(this.value)" title="meme text line input"></input>
                 
                 <div class="flex-container-row">
-                    <button class="editor-button text-nav-button" title="switch text line"><i class="fa-solid fa-up-down"></i></button>
-                    <button class="editor-button add-line-button" title="add text line"><i class="fa-solid fa-plus"></i></button>
-                    <button class="editor-button delete-line-button" title="delete selected text line"><i class="fa-solid fa-trash"></i></button>
+                    <button class="editor-button text-nav-button" onclick="onSwitchLine()" title="switch text line"><i class="fa-solid fa-up-down"></i></button>
+                    <button class="editor-button add-line-button" onclick="onAddLine()" title="add text line"><i class="fa-solid fa-plus"></i></button>
+                    <button class="editor-button delete-line-button" onclick="onDeleteLine()" title="delete selected text line"><i class="fa-solid fa-trash"></i></button>
                 </div>
             
                 <div class="text-editor flex-container-column">
                     <div class="flex-container-row">
                         <button class="editor-button" onclick="onFontSizeChange('+')" title="make font larger">A+</button>
                         <button class="editor-button" onclick="onFontSizeChange('-')" title="make font smaller">A-</button>
-                        <button class="editor-button" onclick="onTextAlignChange('right')" title="align text to the left"><i class="fa-solid fa-align-left"></i></button>
+                        <button class="editor-button" onclick="onTextAlignChange('left')" title="align text to the left"><i class="fa-solid fa-align-left"></i></button>
                         <button class="editor-button" onclick="onTextAlignChange('center')" title="align text to the center"><i class="fa-solid fa-align-center"></i></button>
-                        <button class="editor-button" onclick="onTextAlignChange('left')" title="align text to the right"><i class="fa-solid fa-align-right"></i></button>
+                        <button class="editor-button" onclick="onTextAlignChange('right')" title="align text to the right"><i class="fa-solid fa-align-right"></i></button>
                     </div>
                     <div class="flex-container-row">
                         <select class="font-selector" placeholder="Impact" oninput="onFontFamilyChange(this.value)" title="font selector">

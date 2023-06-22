@@ -2,9 +2,8 @@
     display: grid;
     grid-template-columns: 
         minmax(5px, 1fr) 
-        minmax(auto, 85vw)
+        minmax(auto, 95%)
         minmax(5px, 1fr);
-    place-items: center;
 }
 
 .main-layout > *:not(.full) {
@@ -13,4 +12,8 @@
 
 .main-layout > *.full {
     grid-column: 1 / -1;
+}
+
+.editor-layout {
+    place-items: center;
 }

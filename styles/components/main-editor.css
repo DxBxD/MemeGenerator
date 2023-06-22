@@ -1,10 +1,10 @@
 .main-editor {
+    grid-column: 2;
     display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 100px;
+    grid-template-columns: 1fr;
+    gap: 50px;
     text-align: center;
-    margin: 0;
-    padding: 0;
+    margin-bottom: 50px;
 }
 
 .main-editor .editor-toolbar-container {
@@ -13,7 +13,7 @@
     border-radius: 20px;
 }
 
-.main-editor .editor-toolbar-container>* {
+.main-editor .editor-toolbar-container> * {
     border-radius: 10px;
 }
 
@@ -26,7 +26,7 @@
 
 
 .main-editor .editor-toolbar-container .text-input {
-    width: auto;
+    width: 90%;
     height: 2em;
     box-shadow: 0 3px 6px 1px rgba(0, 0, 0, 0.15);
     border: none;

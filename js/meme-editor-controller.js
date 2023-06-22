@@ -12,6 +12,7 @@ const TOUCH_EVS = ['touchstart', 'touchmove', 'touchend']
 let gElCanvas
 let gCtx
 let gElEditorForm
+let gTextInputBox
 let gFontFamily
 let gFontSize
 let gTextColor
@@ -30,6 +31,7 @@ function onEditorInit() {
     gElCanvas = document.querySelector('#meme-canvas')
     gCtx = gElCanvas.getContext('2d')
     gElEditorForm = document.querySelector('#meme-editor')
+    gTextInputBox = document.querySelector('.text-input')
     gFontSize = 35
     gTextAlignDirection = 'center'
     gFontFamily = 'impact'
@@ -37,7 +39,7 @@ function onEditorInit() {
     gTextColor = '#ffffff'
     addListeners()
     resizeCanvas()
-    renderMeme()
+    onAddLine()
 }
 
 
@@ -47,36 +49,109 @@ function onEditorInit() {
 // a function for rendering a meme image and text
 function renderMeme() {
     const meme = getMeme()
-    const memeText = meme.lines[0].text
     const memeImg = getImageById(meme.selectedImgId)
     let img = new Image()
     img.onload = function () {
         gCtx.drawImage(img, 0, 0, gElCanvas.width, gElCanvas.height)
-        drawText(memeText)
+        drawText()
     }
     img.src = memeImg
 }
 
 
-// a function for rendering text
-function drawText(text) {
-    const x = gElCanvas.width / 2
-    const y = gElCanvas.height / 10
+// a function for rendering the text lines on the canvas
+function drawText() {
+    for(let i = 0; i < gMeme.lines.length; i++) {
+        let line = gMeme.lines[i]
+        const x = gElCanvas.width / 2
+        const y = (gElCanvas.height / (gMeme.lines.length+1)) * (i+1)
 
-    gCtx.lineWidth = 3
-    gCtx.font = `${gFontSize}px ${gFontFamily}`
-    gCtx.textAlign = gTextAlignDirection
-    gCtx.textBaseline = 'middle'
+        gCtx.lineWidth = 3
+        gCtx.font = `${line['font-size']}px ${line['font-family']}`
+        gCtx.textAlign = line['text-align']
+        gCtx.textBaseline = 'middle'
 
-    gCtx.strokeStyle = 'black'
-    gCtx.strokeText(text, x, y)
+        gCtx.strokeStyle = 'black'
+        gCtx.strokeText(line.text, x, y)
 
-    gCtx.fillStyle = gTextColor
-    gCtx.fillText(text, x, y)
+        gCtx.fillStyle = line.color
+        gCtx.fillText(line.text, x, y)
+
+        let textMeasure = gCtx.measureText(line.text)
+            let rectX, rectWidth
+            switch (line['text-align']) {
+                case 'center':
+                    rectX = x - textMeasure.width / 2 - 5
+                    rectWidth = textMeasure.width + 10
+                    break
+                case 'left':
+                    rectX = x - 5
+                    rectWidth = textMeasure.width + 5
+                    break
+                case 'right':
+                    rectX = x - textMeasure.width - 5
+                    rectWidth = textMeasure.width + 5
+                    break
+            }            
+
+        line['canvas-x-pos'] = rectX
+        line['canvas-y-pos'] = y - line['font-size'] / 2 - 5
+        line.width = rectWidth
+        line.height = line['font-size'] + 10
+
+        // Drawing a rectangle around the selected line
+        if (i === gMeme.selectedLineIdx) {
+            gCtx.beginPath()
+            gCtx.lineWidth = 2
+            gCtx.rect(rectX, y - line['font-size'] / 2 - 5, rectWidth, line['font-size'] + 10)
+            gCtx.stroke()
+        }
+    }
 }
 
 
-// a function for getting the line text and sending it to the controller
+function onSwitchLine() {
+    gMeme.selectedLineIdx++
+    if (gMeme.selectedLineIdx >= gMeme.lines.length) {
+        gMeme.selectedLineIdx = 0
+    }
+    gTextInputBox.value = gMeme.lines[gMeme.selectedLineIdx].text
+    renderMeme()
+}
+
+
+function onAddLine() {
+    let newLine = {
+        text: 'Your text',
+        'text-align': 'center',
+        'font-size': 45,
+        'font-family': 'impact',
+        'text-underline': false,
+        color: '#ffffff',
+        'canvas-x-pos': 0,
+        'canvas-y-pos': 0,
+        width: 0,
+        height: 0
+    }
+    gMeme.lines.push(newLine)
+    gMeme.selectedLineIdx = gMeme.lines.length - 1
+    gTextInputBox.value = gMeme.lines[gMeme.selectedLineIdx].text
+    renderMeme()
+}
+
+
+function onDeleteLine() {
+    if (gMeme.lines.length > 1) {
+        gMeme.lines.splice(gMeme.selectedLineIdx, 1)
+        gMeme.selectedLineIdx--
+        if (gMeme.selectedLineIdx < 0) gMeme.selectedLineIdx = 0
+        gTextInputBox.value = gMeme.lines[gMeme.selectedLineIdx].text
+        renderMeme()
+    }
+}
+
+
+// a function for getting the line text and sending it to the service
 // to be changed, then rendering the meme
 function onSetLineText(text) {
     setLineText(text)
@@ -85,38 +160,31 @@ function onSetLineText(text) {
 
 
 function onFontSizeChange(direction) {
-    switch (direction) {
-        case '+':
-            gFontSize += 3
-            break
-        case '-':
-            gFontSize -= 3
-            break
-    }
+    setFontSize(direction)
     renderMeme()
 }
 
 
 function onTextAlignChange(textAlignDirection) {
-    gTextAlignDirection = textAlignDirection
+    setTextAlignDirection(textAlignDirection)
     renderMeme()
 }
 
 
 function onFontFamilyChange(fontFamily) {
-    gFontFamily = fontFamily
+    setFontFamily(fontFamily)
     renderMeme()
 }
 
 
 function onAddUnderline() {
-    gIsTextUnderline = !gIsTextUnderline
+    setUnderline()
     // renderMeme()
 }
 
 
 function onTextColorChange(selectedColor) {
-    gTextColor = selectedColor
+    setTextColor(selectedColor)
     renderMeme()
 }
 
@@ -133,16 +201,32 @@ function addListeners() {
 
 // a function for adding mouse event listeners
 function addMouseListeners() {
-    // gElCanvas.addEventListener('mousedown', onDown)
+    gElCanvas.addEventListener('mousedown', onDown)
     // gElCanvas.addEventListener('mousemove', onMove)
     // gElCanvas.addEventListener('mouseup', onUp)
 }
 
 // a function for adding touch event listeners
 function addTouchListeners() {
-    // gElCanvas.addEventListener('touchstart', onDown)
+    gElCanvas.addEventListener('touchstart', onDown)
     // gElCanvas.addEventListener('touchmove', onMove)
     // gElCanvas.addEventListener('touchend', onUp)
+}
+
+
+function onDown(ev) {
+    const pos = getEvPos(ev)
+    for(let i = 0; i < gMeme.lines.length; i++) {
+        let line = gMeme.lines[i]
+        if(pos.x > line['canvas-x-pos'] && pos.x < line['canvas-x-pos'] + line.width && 
+            pos.y > line['canvas-y-pos'] && pos.y < line['canvas-y-pos'] + line.height) {
+            console.log(line['canvas-x-pos'])
+            gMeme.selectedLineIdx = i
+            gTextInputBox.value = line.text
+            renderMeme()
+            break
+        }
+    }
 }
 
 
@@ -244,7 +328,7 @@ function resizeCanvas() {
     const elContainer = document.querySelector('.canvas-container')
     gElCanvas.width = elContainer.offsetWidth
     gElCanvas.height = elContainer.offsetHeight
-    onClearCanvas()
+    renderMeme()
 }
 
 

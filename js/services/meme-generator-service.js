@@ -17,15 +17,9 @@ let gImgs = []
 
 // The global meme object
 let gMeme = {
-    selectedImgId: 'm6sr7E',
+    selectedImgId: null,
     selectedLineIdx: 0,
-    lines: [
-        {
-            text: 'Your Text',
-            size: 45,
-            color: 'white'
-        }
-    ]
+    lines: []
 }
 
 // The global keywords map object
@@ -96,6 +90,42 @@ function getImageById(selectedImgId) {
 function setLineText(userLineText) {
     const currLine = gMeme.lines[gMeme.selectedLineIdx]
     currLine.text = userLineText
+}
+
+
+function setFontSize(direction) {
+    switch (direction) {
+        case '+':
+            if (gMeme.lines[gMeme.selectedLineIdx]['font-size'] >= 102) return
+            gMeme.lines[gMeme.selectedLineIdx]['font-size'] += 6
+            break
+        case '-':
+            if (gMeme.lines[gMeme.selectedLineIdx]['font-size'] <= 27) return
+            gMeme.lines[gMeme.selectedLineIdx]['font-size'] -= 6
+            break
+    }
+    console.log(gMeme.lines[gMeme.selectedLineIdx]['font-size'])
+}
+
+
+function setTextAlignDirection(textAlignDirection) {
+    gMeme.lines[gMeme.selectedLineIdx]['text-align'] = textAlignDirection
+}
+
+
+function setFontFamily(fontFamily) {
+    gMeme.lines[gMeme.selectedLineIdx]['font-family'] = fontFamily
+}
+
+
+function setUnderline() {
+    gMeme.lines[gMeme.selectedLineIdx]['text-underline'] = 
+    !(gMeme.lines[gMeme.selectedLineIdx]['text-underline'])
+}
+
+
+function setTextColor(selectedColor) {
+    gMeme.lines[gMeme.selectedLineIdx].color = selectedColor
 }
 
 

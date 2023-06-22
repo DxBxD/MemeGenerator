@@ -1,14 +1,19 @@
 .main-header-container {
     grid-column: 1 / -1;
-    width: 1257px;
+    width: 100%;
     height: 73px;
     border-radius: 37px;
     background-image: linear-gradient(-86deg, var(--clrSecondary3) 0%, var(--clrSecondary1) 100%);
     margin-top: 10px;
-    margin-bottom: 65px;
+    margin-bottom: 40px;
 }
 
 .main-header .main-nav {
+    margin-inline-start: 1em;
+    margin-inline-end: 1em;
+    gap: 15px;
+}
+
+.main-header .logo {
     margin-inline-start: 2rem;
-    gap: 20px;
 }
