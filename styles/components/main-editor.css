@@ -55,6 +55,34 @@
     background-color: var(--clrDeleteBtn);
 }
 
+.upload-file-button {
+    position: relative;
+    background-color: rgb(232, 208, 23);
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>👆</text></svg>") 16 0, auto;    
+}
+
+.upload-file-button i {
+    color: var(--clrPrimary4);
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>👆</text></svg>") 16 0, auto;
+}
+
+input[type=file], /* FF, IE7+, chrome (except button) */
+input[type=file]::-webkit-file-upload-button { /* chromes and blink button */
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>👆</text></svg>") 16 0, auto;
+}
+
+.main-editor .editor-toolbar-container .upload-file-input {
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+    box-shadow: 0 3px 6px 1px rgba(0, 0, 0, 0.15);
+    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>👆</text></svg>") 16 0, auto;
+}
+
 .main-editor .editor-toolbar-container .text-editor {
     margin-left: 28px;
     margin-right: 28px;
@@ -93,6 +121,7 @@
 }
 
 .main-editor .editor-toolbar-container .download-button {
+    position: relative;
     border-radius: 10px;
     width: 8em;
     color: var(--clrPrimary4);

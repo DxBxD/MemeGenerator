@@ -63,15 +63,26 @@ function getMeme() {
 }
 
 
+function resetgMeme() {
+    gMeme = {
+        selectedImgId: null,
+        selectedLineIdx: 0,
+        lines: []
+    }
+}
+
+
 // a function for getting the images to be displayed in the gallery
 function getImgs() {
     return gImgs
 }
 
 
-// a function for setting the selected image id in the gMeme object,
-// hiding the gallery and showing the meme editor
+// a function for calling the resetgMeme func to reset the gMeme object
+// and setting the selected image id in the gMeme object
+// before editing a new meme in the meme editor
 function setImg(selectedImgId) {
+    resetgMeme()
     gMeme.selectedImgId = selectedImgId
 }
 

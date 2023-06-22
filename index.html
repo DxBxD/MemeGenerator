@@ -14,14 +14,14 @@
     <header class="main-header-container main-layout full">
         <div class="main-header flex space-between align-center">
             <a onclick="window.location.reload()">
-                <div class="logo">
+                <div class="logo" aria-label="The GagGuru Meme generator logo">
                     <i class="fa-solid fa-g"></i>ag<i class="fa-solid fa-g"></i>uru
                 </div>
             </a>
             <nav class="main-nav-container">
                 <ul class="main-nav flex clean-list">
-                    <li><button class="nav-item" href="#" onclick="onGalleryInit()" title="gallery">Gallery</button></li>
-                    <li><button class="nav-item" href="#" title="about">About</button></li>
+                    <li><button class="nav-item" href="#" onclick="onGalleryInit()" title="gallery"><span><i class="fa-solid fa-g"></i></span>allery</button></li>
+                    <li><button id="shadowBox" class="nav-item rainbow rainbow_text_animated flex align-center" title="saved memes (page under construction)"><span><i class="fa-solid fa-person-digging"></i><i class="fa-solid fa-g"></i>a</span>gs<button class="background-button"></button></button></li>
                 </ul>
             </nav>
             <button style="display: none;" class="btn-toggle-menu flex align-center justify-center" onclick="toggleMenu()" title="open mobile menu">☰</button>
@@ -51,6 +51,14 @@
                     <button class="editor-button text-nav-button" onclick="onSwitchLine()" title="switch text line"><i class="fa-solid fa-up-down"></i></button>
                     <button class="editor-button add-line-button" onclick="onAddLine()" title="add text line"><i class="fa-solid fa-plus"></i></button>
                     <button class="editor-button delete-line-button" onclick="onDeleteLine()" title="delete selected text line"><i class="fa-solid fa-trash"></i></button>
+                    <button class="editor-button upload-file-button">
+                        <i class="fa-solid fa-upload"></i>
+                        <input class="upload-file-input" type="file" class="file-input btn" 
+                        name="image" onchange="onImgInput(event)"
+                        accept="image/*"
+                        title="upload image"
+                        />
+                    </button>
                 </div>
             
                 <div class="text-editor flex-container-column">
