@@ -2,9 +2,9 @@
     
     .main-layout {
         grid-template-columns: 
-            minmax(5px, 1fr) 
-            minmax(auto, 97%)
-            minmax(5px, 1fr);
+            minmax(3px, 1fr) 
+            minmax(auto, 100%)
+            minmax(3px, 1fr);
     }
 
     .main-header .main-nav {
@@ -17,16 +17,6 @@
         margin-inline-start: 4rem;
     }
 
-    .gallery {
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-
-    .gallery img {
-        /* width: 100%;
-        max-width: 200px; */
-    }
-
     .main-editor {
         grid-template-columns: 1fr 1fr;
         gap: 5px;
@@ -34,7 +24,6 @@
     }
 
     .main-editor .editor-toolbar-container {
-        border: 2px solid var(--clrPrimary1);
         margin-right: 6px;
     }
 
@@ -45,6 +34,8 @@
     .canvas-container {
         width: 58vh;
         height: 58vh;
+        margin: 0;
+        padding: 0;
     }
 }
 
@@ -62,18 +53,8 @@
         gap: 30px;
     }
 
-    .gallery {
-        flex-direction: row;
-        flex-wrap: wrap;
-    }
-
-    .gallery img {
-        /* width: 100%;
-        max-width: 200px; */
-    }
-
     .main-editor .editor-toolbar-container {
-        outline: 20px solid var(--clrPrimary1); /* Increased the outline according to your change */
+        padding: 20px;
     }
 
     .main-editor {

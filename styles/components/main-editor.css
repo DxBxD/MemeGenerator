@@ -9,7 +9,7 @@
 
 .main-editor .editor-toolbar-container {
     background-color: var(--clrPrimary1);
-    outline: 20px solid var(--clrPrimary1);
+    padding: 10px;
     border-radius: 20px;
 }
 
