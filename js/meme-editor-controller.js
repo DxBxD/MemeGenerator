@@ -24,6 +24,8 @@ let gIsDragging
 let gIsCustomImage
 let gCustomImg
 let gIsCanvasBeingSaved
+let gIsCanvasFocused
+let blinkInterval
 
 
 //////////////////////////////////////////////////////////////////////
@@ -32,7 +34,9 @@ let gIsCanvasBeingSaved
 // The onInit functions
 
 function onEditorInit() {
+    gElMemeGallery.innerHTML = ''
     document.querySelector('.main-gallery').style.display = 'none'
+    document.querySelector('.meme-gallery').style.display = 'none'
     document.querySelector('.main-editor').style.display = 'grid'
     gElCanvas = document.querySelector('#meme-canvas')
     gCtx = gElCanvas.getContext('2d')
@@ -48,9 +52,14 @@ function onEditorInit() {
     gIsDragging = false
     gIsCustomImage = false
     gIsCanvasBeingSaved = false
+    gIsCanvasFocused = false
     addListeners()
     resizeCanvas()
-    onAddLine()
+    if (!getMeme().saved && !getMeme.random) onAddLine()
+    blinkInterval = setInterval(function() {
+        getMeme().isCursorOn = !getMeme().isCursorOn
+        renderMeme()
+    }, 650)
 }
 
 
@@ -81,9 +90,9 @@ function renderMeme() {
 
 // a function for drawing the text lines on the canvas above the image
 function drawText(ctx, drawRectangle) {
-    for(let i = 0; i < gMeme.lines.length; i++) {
-        let line = gMeme.lines[i]
-        ctx.lineWidth = 3
+    for(let i = 0; i < getMeme().lines.length; i++) {
+        let line = getMeme().lines[i]
+        ctx.lineWidth = 4
         ctx.font = `${line['font-size']}px ${line['font-family']}`
         ctx.textAlign = line['text-align']
         ctx.textBaseline = 'middle'
@@ -104,10 +113,20 @@ function drawText(ctx, drawRectangle) {
             y = line['canvas-y-pos'] + line['font-size'] / 2 + 5
         } else {
             x = gElCanvas.width / 2
-            y = (gElCanvas.height / (gMeme.lines.length+1)) * (i+1)
+            y = (gElCanvas.height / (getMeme().lines.length+1)) * (i + 1)
         }
 
-        let textMeasure = ctx.measureText(line.text)
+        let textMeasure
+        if (drawRectangle && i === getMeme().selectedLineIdx && Number(line['font-size']) < 27) {
+            textMeasure = ctx.measureText(line.text + '/..')
+        } else if (drawRectangle && i === getMeme().selectedLineIdx && Number(line['font-size']) < 37) {
+            textMeasure = ctx.measureText(line.text + '/.')
+        } else if (drawRectangle && i === getMeme().selectedLineIdx) {
+            textMeasure = ctx.measureText(line.text + '/')
+        } else {
+            textMeasure = ctx.measureText(line.text)
+        }
+
         let rectX, rectWidth
         switch (line['text-align']) {
             case 'center':
@@ -122,8 +141,8 @@ function drawText(ctx, drawRectangle) {
                 rectX = x - textMeasure.width
                 rectWidth = textMeasure.width + 5
                 break
-        }       
-
+        }
+        
         line['canvas-x-pos'] = rectX
         line['canvas-y-pos'] = y - line['font-size'] / 2 - 5
         line.width = rectWidth
@@ -131,7 +150,6 @@ function drawText(ctx, drawRectangle) {
 
         ctx.strokeStyle = 'black'
         ctx.strokeText(line.text, x, y)
-
         ctx.fillStyle = line.color
         ctx.fillText(line.text, x, y)
 
@@ -139,14 +157,24 @@ function drawText(ctx, drawRectangle) {
             let underlineThickness = 0.5
             let underlineYPos = y + (line['font-size'] / 2) + underlineThickness
             ctx.strokeStyle = 'black'
+            ctx.lineWidth = 2
             ctx.fillRect(rectX, underlineYPos, rectWidth, underlineThickness + 4)
             ctx.strokeRect(rectX, underlineYPos, rectWidth, underlineThickness + 4)
         }
 
-        if (drawRectangle && i === gMeme.selectedLineIdx) {
+        if (drawRectangle && i === getMeme().selectedLineIdx && getMeme().isCursorOn) {
             ctx.strokeStyle = 'black'
+            ctx.lineWidth = 5
+            ctx.strokeText('│', x + textMeasure.width / 2 - 3, y - 3)
+            ctx.fillStyle = 'white'
+            ctx.fillText('│', x + textMeasure.width / 2 - 3, y - 3)
+        } 
+
+        if (drawRectangle && i === getMeme().selectedLineIdx) {
+
             ctx.beginPath()
-            ctx.lineWidth = 2
+            ctx.strokeStyle = 'black'
+            ctx.lineWidth = 1.5
             ctx.rect(rectX, y - line['font-size'] / 2 - 5, rectWidth, line['font-size'] + 10)
             ctx.stroke()
         }
@@ -154,16 +182,18 @@ function drawText(ctx, drawRectangle) {
 }
 
 
+// a function for switching between text lines
 function onSwitchLine() {
-    gMeme.selectedLineIdx++
-    if (gMeme.selectedLineIdx >= gMeme.lines.length) {
-        gMeme.selectedLineIdx = 0
+    getMeme().selectedLineIdx++
+    if (getMeme().selectedLineIdx >= getMeme().lines.length) {
+        getMeme().selectedLineIdx = 0
     }
-    gTextInputBox.value = gMeme.lines[gMeme.selectedLineIdx].text
+    gTextInputBox.value = getMeme().lines[getMeme().selectedLineIdx].text
     renderMeme()
 }
 
 
+// a function for adding a new text line
 function onAddLine() {
     let newLine = {
         text: 'Your text',
@@ -174,26 +204,27 @@ function onAddLine() {
         color: '#ffffff',
         'canvas-x-pos': 0,
         'canvas-y-pos': 0,
-        'canvas-text-start-x-pos': 0,
         width: 0,
         height: 0,
-        moved: false
+        moved: false,
+        cursorPos: 0
     }
-    gMeme.lines.push(newLine)
-    gMeme.selectedLineIdx = gMeme.lines.length - 1
-    gTextInputBox.value = gMeme.lines[gMeme.selectedLineIdx].text
+    getMeme().lines.push(newLine)
+    getMeme().selectedLineIdx = getMeme().lines.length - 1
+    gTextInputBox.value = getMeme().lines[getMeme().selectedLineIdx].text
     renderMeme()
 }
 
 
+// a function for deleting the current the selected text line
 function onDeleteLine() {
-    if (gMeme.lines.length > 1) {
-        gMeme.lines.splice(gMeme.selectedLineIdx, 1)
-        gMeme.selectedLineIdx--
-        if (gMeme.selectedLineIdx < 0) gMeme.selectedLineIdx = 0
-        gTextInputBox.value = gMeme.lines[gMeme.selectedLineIdx].text
-    } else if (gMeme.lines.length === 1) {
-        gMeme.lines.pop()
+    if (getMeme().lines.length > 1) {
+        getMeme().lines.splice(getMeme().selectedLineIdx, 1)
+        getMeme().selectedLineIdx--
+        if (getMeme().selectedLineIdx < 0) getMeme().selectedLineIdx = 0
+        gTextInputBox.value = getMeme().lines[getMeme().selectedLineIdx].text
+    } else if (getMeme().lines.length === 1) {
+        getMeme().lines.pop()
     } else {
         return
     }
@@ -209,30 +240,35 @@ function onSetLineText(text) {
 }
 
 
+// a function for calling the service function for changing the font size of the text line
 function onFontSizeChange(direction) {
     setFontSize(direction)
     renderMeme()
 }
 
 
+// a function for calling the service function for changing the text line alignment
 function onTextAlignChange(textAlignDirection) {
     setTextAlignDirection(textAlignDirection)
     renderMeme()
 }
 
 
+// a function for calling the service function for changing the text line font family
 function onFontFamilyChange(fontFamily) {
     setFontFamily(fontFamily)
     renderMeme()
 }
 
 
+// a function for calling the service function for toggling the underline for the text line
 function onAddUnderline() {
     setUnderline()
     renderMeme()
 }
 
 
+// a function for calling the service function for changing the text color of the text line
 function onTextColorChange(selectedColor) {
     setTextColor(selectedColor)
     renderMeme()
@@ -246,6 +282,17 @@ function addListeners() {
     window.addEventListener('resize', () => {
         resizeCanvas()
     })
+    gElCanvas.addEventListener('click', function() {
+        gIsCanvasFocused = true
+    })
+    document.querySelector('.text-input').addEventListener('focus', function() {
+        gIsCanvasFocused = false
+    })
+    document.querySelector('.text-input').addEventListener('blur', function() {
+        gIsCanvasFocused = false
+    })
+    window.addEventListener('keydown', onKeyDown)
+    document.querySelector('.nav-item').addEventListener('click', clearInterval(blinkInterval))
 }
 
 
@@ -264,13 +311,14 @@ function addTouchListeners() {
 }
 
 
+// a function for handling mouse down events
 function onDown(ev) {
     const pos = getEvPos(ev)
-    for(let i = 0; i < gMeme.lines.length; i++) {
-        let line = gMeme.lines[i]
+    for(let i = 0; i < getMeme().lines.length; i++) {
+        let line = getMeme().lines[i]
         if(pos.x > line['canvas-x-pos'] && pos.x < line['canvas-x-pos'] + line.width && 
             pos.y > line['canvas-y-pos'] && pos.y < line['canvas-y-pos'] + line.height) {
-            gMeme.selectedLineIdx = i
+            getMeme().selectedLineIdx = i
             gTextInputBox.value = line.text
             renderMeme()
             gIsDragging = true
@@ -280,10 +328,11 @@ function onDown(ev) {
 }
 
 
+// a function for handling mouse move events
 function onMove(ev) {
     if (gIsDragging) {
         const pos = getEvPos(ev)
-        let line = gMeme.lines[gMeme.selectedLineIdx]
+        let line = getMeme().lines[getMeme().selectedLineIdx]
 
         switch (line['text-align']) {
             case 'center':
@@ -298,14 +347,31 @@ function onMove(ev) {
         }
 
         line['canvas-y-pos'] = pos.y - line.height / 2
-        gMeme.lines[gMeme.selectedLineIdx].moved = true
+        getMeme().lines[getMeme().selectedLineIdx].moved = true
         renderMeme()
     }
 }
 
 
+// a function for handling mouse up events
 function onUp() {
     gIsDragging = false
+}
+
+
+// a function for handling key down events
+function onKeyDown(ev) {
+    if (getMeme().selectedLineIdx === null || !gIsCanvasFocused) return
+    if (ev.key === ' ') ev.preventDefault()
+    if (ev.key === 'Backspace') {
+        getMeme().lines[getMeme().selectedLineIdx].text = getMeme().lines[getMeme().selectedLineIdx].text.slice(0, -1)
+    } else if (ev.key === 'Enter') {
+        onAddLine()
+    } else if (ev.key.length === 1 || ev.key === ' ') {
+        getMeme().lines[getMeme().selectedLineIdx].text += ev.key
+    }
+    gTextInputBox.value = getMeme().lines[getMeme().selectedLineIdx].text
+    renderMeme()
 }
 
 
@@ -336,6 +402,12 @@ function onDownloadCanvas(elLink) {
     let data = gElHiddenCanvas.toDataURL()
     elLink.href = data
     elLink.download = 'my-meme'
+}
+
+
+// a function for saving a meme
+function onSaveMeme() {
+    saveMeme()
 }
 
 

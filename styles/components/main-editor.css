@@ -57,7 +57,7 @@
 
 .upload-file-button {
     position: relative;
-    background-color: rgb(232, 208, 23);
+    background-color: var(--clrUploadBtn);
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>👆</text></svg>") 16 0, auto;    
 }
 
@@ -81,6 +81,11 @@ input[type=file]::-webkit-file-upload-button { /* chromes and blink button */
     border: none;
     box-shadow: 0 3px 6px 1px rgba(0, 0, 0, 0.15);
     cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>👆</text></svg>") 16 0, auto;
+}
+
+.main-editor .editor-toolbar-container .save-meme-button {
+    background-color: var(--clrSaveBtn);
+    color: var(--clrPrimary4);
 }
 
 .main-editor .editor-toolbar-container .text-editor {
