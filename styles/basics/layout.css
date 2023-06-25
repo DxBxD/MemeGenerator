@@ -1,9 +1,9 @@
 .main-layout {
     display: grid;
     grid-template-columns: 
-        minmax(5px, 1fr) 
-        minmax(auto, 90%)
-        minmax(5px, 1fr);
+        minmax(1px, 1fr) 
+        minmax(auto, 100%)
+        minmax(1px, 1fr);
 }
 
 .main-layout > *:not(.full) {

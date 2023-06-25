@@ -3,7 +3,7 @@
 // Constants
 
 // The global touch events constant array
-const MAX_KEYWORDS = 5
+const MAX_KEYWORDS = 6
 
 // Global variables
 

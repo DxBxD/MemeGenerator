@@ -9,11 +9,11 @@
 }
 
 .main-header .main-nav {
-    margin-inline-start: 0.5em;
-    margin-inline-end: 0.2em;
+    margin-inline-start: 1em;
+    margin-inline-end: 1em;
     gap: 5px;
 }
 
 .main-header .logo {
-    margin-inline-start: 0.2rem;
+    margin-inline-start: 1rem;
 }

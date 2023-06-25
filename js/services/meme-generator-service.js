@@ -48,7 +48,7 @@ let gMeme = {
 }
 
 // The global keywords search count map object
-let gKeywordSearchCountMap = { 'pepe': 6, 'meme': 2, 'wat': 8, 'cringe': 4, 'trump': 3 }
+let gKeywordSearchCountMap = { 'Trump': 6, 'LMAO': 14, 'kid': 8, 'dog': 10, 'cat': 3, 'success': 2 }
 
 
 //////////////////////////////////////////////////////////////////////
@@ -72,9 +72,24 @@ function _createImgs() {
     let imgs = loadFromLocalStorage(STORAGE_KEY_IMGS)
     if (!imgs || !imgs.length) {
         imgs = []
-        for (let i = 1; i < 19; i++) {
-            imgs.push(_createImg(SQUARE_IMGS_DIR + i + '.jpg', ['funny', 'meme']))
-        }
+            imgs.push(_createImg(SQUARE_IMGS_DIR + 1 + '.jpg', ['funny', 'meme', 'trump', 'angry' , 'right']))
+            imgs.push(_createImg(SQUARE_IMGS_DIR + 2 + '.jpg', ['funny', 'meme', 'dogs']))
+            imgs.push(_createImg(SQUARE_IMGS_DIR + 3 + '.jpg', ['funny', 'meme', 'dogs', 'kid']))
+            imgs.push(_createImg(SQUARE_IMGS_DIR + 4 + '.jpg', ['funny', 'meme', 'cat', 'sleep']))
+            imgs.push(_createImg(SQUARE_IMGS_DIR + 5 + '.jpg', ['funny', 'meme', 'kid', 'success']))
+            imgs.push(_createImg(SQUARE_IMGS_DIR + 6 + '.jpg', ['funny', 'meme', 'aliens']))
+            imgs.push(_createImg(SQUARE_IMGS_DIR + 7 + '.jpg', ['funny', 'meme', 'kid']))
+            imgs.push(_createImg(SQUARE_IMGS_DIR + 8 + '.jpg', ['funny', 'meme']))
+            imgs.push(_createImg(SQUARE_IMGS_DIR + 9 + '.jpg', ['funny', 'meme', 'kid', 'lmao']))
+            imgs.push(_createImg(SQUARE_IMGS_DIR + 10 + '.jpg', ['funny', 'meme', 'funny']))
+            imgs.push(_createImg(SQUARE_IMGS_DIR + 11 + '.jpg', ['funny', 'meme']))
+            imgs.push(_createImg(SQUARE_IMGS_DIR + 12 + '.jpg', ['funny', 'meme']))
+            imgs.push(_createImg(SQUARE_IMGS_DIR + 13 + '.jpg', ['funny', 'meme']))
+            imgs.push(_createImg(SQUARE_IMGS_DIR + 14 + '.jpg', ['funny', 'meme']))
+            imgs.push(_createImg(SQUARE_IMGS_DIR + 15 + '.jpg', ['funny', 'meme']))
+            imgs.push(_createImg(SQUARE_IMGS_DIR + 16 + '.jpg', ['funny', 'meme', 'lmao']))
+            imgs.push(_createImg(SQUARE_IMGS_DIR + 17 + '.jpg', ['funny', 'meme']))
+            imgs.push(_createImg(SQUARE_IMGS_DIR + 18 + '.jpg', ['funny', 'meme']))
     }
     gImgs = imgs
     _saveImgsToStorage()
