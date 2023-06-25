@@ -23,6 +23,13 @@ function onGalleryInit() {
     gElGallery = document.querySelector('.gallery')
     renderGallery(getImgs())
     renderKeywords()
+    let elMainContent = document.querySelector('.main-content')
+    let elMemeGallery = document.querySelector('.meme-gallery')
+    if (window.getComputedStyle(elMemeGallery).display !== 'none') {
+        elMainContent.style.overflow = 'visible'
+    } else {
+        elMainContent.style.overflow = 'hidden'
+    }
 }
 
 

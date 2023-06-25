@@ -34,7 +34,8 @@ const RECT_IMGS_DIR = './meme-imgs (various aspect ratios)/'
 
 // The global memes and images arrays
 let gImgs = []
-let gMemes = []
+let gMemes = [{"selectedImgId":6,"selectedLineIdx":1,"lines":[{"text":"The buttons don't align center?","text-align":"center","font-size":27,"font-family":"impact","text-underline":false,"color":"#ffffff","canvas-x-pos":27.25732421875,"canvas-y-pos":22.5,"width":353.4853515625,"height":37,"moved":true,"cursorPos":0},{"text":"ALIENS","text-align":"center","font-size":57,"font-family":"impact","text-underline":false,"color":"#ffffff","canvas-x-pos":118.4638671875,"canvas-y-pos":305.5,"width":161.072265625,"height":67,"moved":true,"cursorPos":0}],"isCursorOn":false,"saved":true},{"selectedImgId":10,"selectedLineIdx":0,"lines":[{"text":"פשוטי","text-align":"center","font-size":63,"font-family":"arial","text-underline":false,"color":"#ffffff","canvas-x-pos":123.802490234375,"canvas-y-pos":326.5,"width":156.39501953125,"height":73,"moved":true,"cursorPos":0}],"isCursorOn":false,"saved":true},{"selectedImgId":7,"selectedLineIdx":0,"lines":[{"text":"נחמדדדדדדד","text-align":"center","font-size":57,"font-family":"arial","text-underline":false,"color":"#ffffff","canvas-x-pos":55.35498046875,"canvas-y-pos":307.5,"width":301.2900390625,"height":67,"moved":true,"cursorPos":0}],"isCursorOn":true,"saved":true},{"selectedImgId":12,"selectedLineIdx":2,"lines":[{"text":"console.log או Debugger","text-align":"center","font-size":33,"font-family":"arial","text-underline":false,"color":"#ffffff","canvas-x-pos":20.529296875,"canvas-y-pos":25.5,"width":366.94140625,"height":43,"moved":true,"cursorPos":0},{"text":"מה אתם","text-align":"center","font-size":45,"font-family":"arial","text-underline":false,"color":"#ffffff","canvas-x-pos":123.083984375,"canvas-y-pos":279.5,"width":157.83203125,"height":55,"moved":true,"cursorPos":0},{"text":"הייתם עושים","text-align":"center","font-size":45,"font-family":"arial","text-underline":false,"color":"#ffffff","canvas-x-pos":86.08203125,"canvas-y-pos":336.5,"width":231.8359375,"height":55,"moved":true,"cursorPos":0}],"isCursorOn":false,"saved":true}]
+let gId = 1
 
 // The global meme object
 let gMeme = {
@@ -59,7 +60,7 @@ _createImgs()
 // a CRUDL function for creating a meme image
 function _createImg(url, keywords) {
     return {
-        id: makeId(),
+        id: gId++,
         url,
         keywords: structuredClone(keywords)
     }
@@ -151,7 +152,7 @@ function setImg(selectedImgId) {
 // a function for getting an image by id, for it
 // to be drawn on the canvas by the controller
 function getImageById(selectedImgId) {
-    const selectedImg = gImgs.find(img => img.id === selectedImgId)
+    const selectedImg = gImgs.find(img => img.id === Number(selectedImgId))
     const selectedImgUrl = selectedImg.url
     return selectedImgUrl
 }

@@ -6,6 +6,7 @@
     gap: 50px;
     text-align: center;
     margin-bottom: 50px;
+    margin-top: 10px;
 }
 
 .main-editor .editor-toolbar-container {
@@ -58,17 +59,17 @@
 .upload-file-button {
     position: relative;
     background-color: var(--clrUploadBtn);
-    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>👆</text></svg>") 16 0, auto;    
+    cursor: pointer;
 }
 
 .upload-file-button i {
     color: var(--clrPrimary4);
-    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>👆</text></svg>") 16 0, auto;
+    cursor: pointer;
 }
 
 input[type=file], /* FF, IE7+, chrome (except button) */
 input[type=file]::-webkit-file-upload-button { /* chromes and blink button */
-    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>👆</text></svg>") 16 0, auto;
+    cursor: pointer;
 }
 
 .main-editor .editor-toolbar-container .upload-file-input {
@@ -80,7 +81,7 @@ input[type=file]::-webkit-file-upload-button { /* chromes and blink button */
     height: 100%;
     border: none;
     box-shadow: 0 3px 6px 1px rgba(0, 0, 0, 0.15);
-    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>👆</text></svg>") 16 0, auto;
+    cursor: pointer;
 }
 
 .main-editor .editor-toolbar-container .save-meme-button {
@@ -106,7 +107,7 @@ input[type=file]::-webkit-file-upload-button { /* chromes and blink button */
     border-radius: 10px;
     padding: 0.1em;
     color: var(--clrPrimarybase);
-    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>👆</text></svg>") 16 0, auto;
+    cursor: pointer;
 }
 
 .main-editor .editor-toolbar-container .color-picker-button {
@@ -122,7 +123,7 @@ input[type=file]::-webkit-file-upload-button { /* chromes and blink button */
     height: 100%;
     border: none;
     box-shadow: 0 3px 6px 1px rgba(0, 0, 0, 0.15);
-    cursor: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg'  width='40' height='48' viewport='0 0 100 100' style='fill:black;font-size:24px;'><text y='50%'>👆</text></svg>") 16 0, auto;
+    cursor: pointer;
 }
 
 .main-editor .editor-toolbar-container .download-button {
