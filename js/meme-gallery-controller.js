@@ -22,6 +22,10 @@ function onMemeGalleryInit() {
 
 function renderSavedMemes() {
     let savedMemes = getMemes()
+    if (!savedMemes || savedMemes.length === 0 ) {
+        gElMemeGallery.innerHTML = '<h2>You haven\'t saved any memes yet...<br>Go create some! <br><br>🎨✨</h2>'
+        return
+    }
     const canvasHTMLs = savedMemes.map((meme, index) =>
         `
         <div class="canvas-container"><canvas class="saved-canvas" id="meme-${index}" width="500" height="500" onclick="onMemeSelect(${index})"></canvas></div>

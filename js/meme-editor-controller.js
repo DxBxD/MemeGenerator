@@ -55,11 +55,11 @@ function onEditorInit() {
     gIsCanvasFocused = false
     addListeners()
     resizeCanvas()
-    if (!getMeme().saved && !getMeme.random) onAddLine()
+    if (!getMeme().saved && !getMeme().random) onAddLine()
     blinkInterval = setInterval(function() {
         getMeme().isCursorOn = !getMeme().isCursorOn
         renderMeme()
-    }, 650)
+    }, 500)
 }
 
 
@@ -162,7 +162,7 @@ function drawText(ctx, drawRectangle) {
             ctx.strokeRect(rectX, underlineYPos, rectWidth, underlineThickness + 4)
         }
 
-        if (drawRectangle && i === getMeme().selectedLineIdx && getMeme().isCursorOn) {
+        if (drawRectangle && i === getMeme().selectedLineIdx && getMeme().isCursorOn && gIsCanvasFocused) {
             ctx.strokeStyle = 'black'
             ctx.lineWidth = 5
             ctx.strokeText('│', x + textMeasure.width / 2 - 3, y - 3)
